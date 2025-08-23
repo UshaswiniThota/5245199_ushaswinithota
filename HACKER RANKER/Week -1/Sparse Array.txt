@@ -1,0 +1,34 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+int* matchingStrings(char** strings, int strings_count, char** queries, int queries_count) {
+    int* results = calloc(queries_count, sizeof(int));
+    for(int i = 0; i < queries_count; i++)
+    for(int j = 0; j < strings_count; j++)
+        if(strcmp(queries[i], strings[j]) == 0)
+            results[i]++;
+    return results;
+}
+int main() {
+    int n, q;
+    scanf("%d", &n);
+    char* strings[n];
+    for(int i = 0; i < n; i++) {
+        strings[i] = malloc(1001);
+        scanf("%s", strings[i]);
+    }
+    scanf("%d", &q);
+    char* queries[q];
+    for(int i = 0; i < q; i++) {
+        queries[i] = malloc(1001);
+        scanf("%s", queries[i]);
+    }
+    int* res = matchingStrings(strings, n, queries, q);
+    for(int i = 0; i < q; i++) printf("%d\n", res[i]);
+    for(int i = 0; i < n; i++) free(strings[i]);
+    for(int i = 0; i < q; i++) free(queries[i]);
+    free(res);
+    
+    return 0;
+}
