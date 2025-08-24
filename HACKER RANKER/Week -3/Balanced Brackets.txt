@@ -1,0 +1,55 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+#define MAX 1000
+
+char stack[MAX];
+int top = -1;
+
+void push(char c) {
+    if(top < MAX - 1)
+    stack[++top] = c;
+}
+char pop() {
+    if(top >= 0)
+        return stack[top--];
+    return '\0';
+}
+char peek() {
+    if(top >= 0)
+        return stack[top];
+    return '\0';
+}
+
+int isMatchingPair(char opening, char closing) {
+    return (opening == '(' && closing == ')') ||
+            (opening == '{' && closing == '}') ||
+            (opening == '[' && closing == ']');
+}
+int isBalanced(char *str) {
+    top = -1;
+    for(int i =0; i<strlen(str); i++) {
+        char c = str[i];
+        if(c == '(' || c == '{' || c == '[') {
+            push(c);
+        } else if(c == ')' || c == '}' || c == ']') {
+            char last = pop();
+            if(!isMatchingPair(last,c))
+            return 0;
+        }
+    }return (top == -1);
+}
+int main() {
+    int t;
+    scanf("%d", &t);
+    while(t--) {
+        char input[1001];
+        scanf("%s", input);
+        if(isBalanced(input))
+            printf("YES\n");
+        else
+            printf("NO\n");
+    }
+    return 0;
+}

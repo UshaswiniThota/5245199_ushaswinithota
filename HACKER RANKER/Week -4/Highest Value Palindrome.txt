@@ -1,0 +1,60 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+int main() {
+    int n, k;
+    scanf("%d %d", &n, &k);
+    char number[n + 1];
+    scanf("%s", number);
+    
+    int changes[n];
+    memset(changes, 0, sizeof(changes));
+    int left = 0, right = n - 1;
+    int required_changes = 0;
+    
+    while(left < right) {
+        if(number[left] != number[right]) {
+            char maxChar = number[left] > number[right] ? number[left] : number[right];
+            number[left] = number[right] = maxChar;
+            changes[left] = changes[right] = 1;
+            required_changes++;
+        }
+        left++;
+        right--;
+    }
+    if(required_changes > k) {
+        printf("-1\n");
+        return 0;
+    }
+    int remaining_changes = k - required_changes;
+    left = 0;
+    right = n - 1;
+    
+    while(left <= right) {
+        if(left == right) {
+            if(remaining_changes > 0 && number[left] != '9') {
+                number[left] = '9';
+                remaining_changes--;
+            }
+        } else {
+            if(number[left] != '9') {
+                if(changes[left] || changes[right]) {
+                    if(remaining_changes >= 1) {
+                        number[left] = number[right] = '9';
+                        remaining_changes--;
+                    }
+                } else {
+                    if(remaining_changes >= 2) {
+                        number[left] = number[right] = '9';
+                        remaining_changes -= 2;
+                    }
+                }
+            }
+        }
+        left++;
+        right--;
+    }
+    printf("%s\n", number);
+    return 0;
+}
