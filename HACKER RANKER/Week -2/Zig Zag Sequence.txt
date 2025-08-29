@@ -1,0 +1,16 @@
+Python
+def findZigZagSequence(a, n):
+    a.sort()
+    mid = (n - 1) // 2             # 1. Correct middle index calculation (0-based)
+    a[mid], a[n - 1] = a[n - 1], a[mid]  # 2. Swap middle and last element
+
+    st = mid + 1
+    ed = n - 2                    # 3. End index adjusted to n-2 (since last element is swapped)
+    while st <= ed:
+        a[st], a[ed] = a[ed], a[st]
+        st += 1
+        ed -= 1
+
+    for i in range(n):
+        print(a[i], end=' ')
+    print()
